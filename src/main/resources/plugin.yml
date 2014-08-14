@@ -1,0 +1,14 @@
+name: ${project.name}
+author: khmDEV
+main: ${project.groupId}.${project.artifactId}.init
+version: ${project.version}
+commands:
+   apie:
+      permission: apie.command
+      permission-message: No tienes permisos <permission>
+   coins:
+      permission-message: No tienes permisos <permission>
+permissions:
+         apie.command:
+                 default: op
+softdepend: [APIBase,Vault,BOSEconomy,Craftconomy3,Essentials,iConomy,MineConomy]
