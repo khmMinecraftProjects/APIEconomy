@@ -13,10 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.khmdev.APIBase.API;
 import me.khmdev.APIBase.Almacenes.Almacen;
 import me.khmdev.APIBase.Almacenes.Central;
-import me.khmdev.APIBase.Almacenes.ConfigFile;
 import me.khmdev.APIBase.Almacenes.Datos;
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 import me.khmdev.APIBase.Auxiliar.runKill;
 import me.khmdev.APIEconomy.CommandEconomy;
+import me.khmdev.APIEconomy.ConstantesEconomy;
+import me.khmdev.APIEconomy.init;
 import me.khmdev.APIEconomy.ExternalsAPI.BOSEEconomy;
 import me.khmdev.APIEconomy.ExternalsAPI.CraftEconomyEconomy;
 import me.khmdev.APIEconomy.ExternalsAPI.EssentialsEconomy;
@@ -29,14 +31,14 @@ public class APIEconomy implements Datos, Listener {
 	private static boolean sql = false;
 	private static Central central;
 
-	public APIEconomy(JavaPlugin init) {
-		ConfigFile conf = new ConfigFile(init.getDataFolder(), "Economy");
+	public APIEconomy(JavaPlugin plu) {
+		ConfigFile conf = new ConfigFile(plu.getDataFolder(), "Economy");
 		FileConfiguration section = conf.getConfig();
 		String n = "";
 		if (section.isString("Estandar")) {
 			n = section.getString("Estandar");
 		}
-		initEconomy(init, n);
+		initEconomy(plu, n);
 
 		sql = API.getInstance().getSql().isEnable();
 
@@ -44,11 +46,15 @@ public class APIEconomy implements Datos, Listener {
 			sql = sql && section.getBoolean("SQL");
 		}
 		if (sql) {
-			init.getLogger().info("APIE usara SQL");
+			if(init.active){
+			for (String s : ConstantesEconomy.sql) {
+				API.getInstance().getSql().sendUpdate(s);
+			}}
+			plu.getLogger().info("APIE usara SQL");
 			SQLEconomy.init();
-			SqlEnable(init);
+			SqlEnable(plu);
 		} else {
-			init.getLogger().info("APIE no usara SQL");
+			plu.getLogger().info("APIE no usara SQL");
 		}
 	}
 

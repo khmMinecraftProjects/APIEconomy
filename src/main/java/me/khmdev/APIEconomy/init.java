@@ -1,11 +1,13 @@
 package me.khmdev.APIEconomy;
 
 
+import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 import me.khmdev.APIEconomy.Own.APIEconomy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class init extends JavaPlugin{
@@ -18,7 +20,18 @@ public class init extends JavaPlugin{
 			setEnabled(false);
 			return;
 		}
-		apie=new APIEconomy(this);
+		apie=new APIEconomy(this);configure();
+	}public static boolean active = false;
+
+	private void configure() {
+		ConfigFile conf = new ConfigFile(getDataFolder(), "config");
+		FileConfiguration section = conf.getConfig();
+
+		if (section.isBoolean("Activado")) {
+			active = section.getBoolean("Activado");
+		}
+		section.set("Activado", true);
+		conf.saveConfig();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
