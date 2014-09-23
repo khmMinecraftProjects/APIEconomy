@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import me.khmdev.APIBase.Almacenes.ConstantesAlmacen.typeVar;
+import me.khmdev.APIBase.Almacenes.sql.Consulta;
 import me.khmdev.APIBase.Almacenes.sql.varSQL;
 import me.khmdev.APIBase.Almacenes.sql.player.SQLPlayerData;
 
@@ -23,8 +24,10 @@ public class SQLEconomy {
 		if (!SQLPlayerData.existUser(pl)) {
 			SQLPlayerData.crearUser(pl);
 		}
+		Consulta cc = SQLPlayerData.getPlayer(pl);
+		if(cc==null){return 0;}
 		try {
-			ResultSet player = SQLPlayerData.getPlayer(pl);
+			ResultSet player=cc.getR();
 			double c = 0;
 
 			if (player != null && player.next()) {
@@ -33,6 +36,8 @@ public class SQLEconomy {
 			return c;
 		} catch (SQLException e) {
 			return 0;
+		}finally{
+			cc.close();
 		}
 
 	}

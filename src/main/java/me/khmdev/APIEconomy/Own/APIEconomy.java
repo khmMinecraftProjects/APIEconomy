@@ -101,28 +101,28 @@ public class APIEconomy implements Datos, Listener {
 
 		switch (n) {
 		case "VaultEconomy":
-			if (hasPlugin("net.milkbowl.vault.economy.Economy")) {
+			if (hasPlugin("Vault")) {
 				eco = new VaultEconomy();
 				ap.getLogger().info("APIEconomy usara Vault");
 				return;
 			}
 			break;
 		case "EssentialsEconomy":
-			if (hasPlugin("com.earth2me.essentials.api.Economy")) {
+			if (hasPlugin("Essentials")) {
 				eco = new EssentialsEconomy();
 				ap.getLogger().info("APIEconomy usara Essentials");
 				return;
 			}
 			break;
 		case "BOSEEconomy":
-			if (hasPlugin("cosine.boseconomy.BOSEconomy")) {
+			if (hasPlugin("BOSEconomy")) {
 				eco = new BOSEEconomy();
 				ap.getLogger().info("APIEconomy usara BOSEconomy");
 				return;
 			}
 			break;
 		case "CraftEconomy":
-			if (hasPlugin("com.greatmancode.craftconomy3.Common")) {
+			if (hasPlugin("Craftconomy3")) {
 				eco = new CraftEconomyEconomy();
 				ap.getLogger().info("APIEconomy usara CraftEconomy");
 				return;
@@ -138,19 +138,19 @@ public class APIEconomy implements Datos, Listener {
 			break;
 		}
 
-		if (hasPlugin("net.milkbowl.vault.economy.Economy")) {
+		if (hasPlugin("Vault")) {
 			eco = new VaultEconomy();
 			ap.getLogger().info("APIEconomy usara Vault");
 
-		} else if (hasPlugin("com.earth2me.essentials.api.Economy")) {
+		} else if (hasPlugin("Essentials")) {
 			eco = new EssentialsEconomy();
 			ap.getLogger().info("APIEconomy usara Essentials");
 
-		} else if (hasPlugin("cosine.boseconomy.BOSEconomy")) {
+		} else if (hasPlugin("BOSEconomy")) {
 			eco = new BOSEEconomy();
 			ap.getLogger().info("APIEconomy usara BOSEconomy");
 
-		} else if (hasPlugin("com.greatmancode.craftconomy3.Common")) {
+		} else if (hasPlugin("Craftconomy3")) {
 			eco = new CraftEconomyEconomy();
 			ap.getLogger().info("APIEconomy usara CraftEconomy");
 		} else {
@@ -163,8 +163,7 @@ public class APIEconomy implements Datos, Listener {
 
 	private static boolean hasPlugin(String s) {
 		try {
-			Class.forName(s);
-			return true;
+			return Bukkit.getPluginManager().getPlugin(s).isEnabled();
 		} catch (Exception e) {
 
 		}
