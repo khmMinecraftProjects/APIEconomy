@@ -1,7 +1,7 @@
 package me.khmdev.APIEconomy;
 
-
 import me.khmdev.APIEconomy.Own.APIEconomy;
+import me.khmdev.APIEconomy.lang.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -10,15 +10,7 @@ import org.bukkit.entity.Player;
 
 public class CommandEconomy {
 	private static String help() {
-		String s = "";
-		s += "/apie <Command>\n";
-		s += "Commands:     get\n";
-		s += "              get (Player)\n";
-		s += "              add (Player) (dinero)\n";
-		s += "              set (Player) (dinero)\n";
-		s += "              reduce (Player) (dinero)\n";
-
-		return s;
+		return Lang.get("CommandEconomy.help");
 	}
 
 	private static double getDouble(String s, double d) {
@@ -28,15 +20,18 @@ public class CommandEconomy {
 			return d;
 		}
 	}
-	public static boolean onCommand(CommandSender sender, Command cmd, String label,
-			String[] args) {
+
+	public static boolean onCommand(CommandSender sender, Command cmd,
+			String label, String[] args) {
 		String pl = sender.getName();
 
 		if (cmd.getName().equalsIgnoreCase("coins")) {
 			if (sender.getName() == "CONSOLE") {
 				return true;
 			}
-			sender.sendMessage("Tienes " + APIEconomy.getCash(pl) + "$");
+			sender.sendMessage(Lang.get("CommandEconomy.get")
+					.replace("%cash%", APIEconomy.getCash(pl) + "")
+					.replace("%UM%", ConstantesEconomy.UM+""));
 			return true;
 		}
 		if (!cmd.getName().equalsIgnoreCase("apie")) {
@@ -53,23 +48,27 @@ public class CommandEconomy {
 					sender.sendMessage(help());
 					return true;
 				}
-				sender.sendMessage("Tienes " + APIEconomy.getCash(pl) + "$");
+				sender.sendMessage(Lang.get("CommandEconomy.get")
+						.replace("%cash%", APIEconomy.getCash(pl) + "")
+						.replace("%UM%", ConstantesEconomy.UM+""));
 				return true;
 			}
 
 		}
 		if (args[0].equals("get")) {
 			if (args.length < 2) {
-				sender.sendMessage("No se ha introducido valores");
+				sender.sendMessage(Lang.get("CommandEconomy.NoValues"));
 				return true;
 			}
 			Player pl2 = Bukkit.getPlayer(args[1]);
 			if (pl2 == null) {
-				sender.sendMessage("Valor incorrecto");
+				sender.sendMessage(Lang.get("CommandEconomy.WrongValues"));
 				return true;
 			}
-			sender.sendMessage(pl2.getName() + " tiene "
-					+ APIEconomy.getCash(pl2.getName()) + "$");
+			sender.sendMessage(Lang.get("CommandEconomy.getOther")
+					.replace("%pl%", pl2.getName())
+					.replace("%cash%", APIEconomy.getCash(pl2.getName())  + "")
+					.replace("%UM%", ConstantesEconomy.UM+""));
 
 			return true;
 		}
@@ -80,7 +79,6 @@ public class CommandEconomy {
 				return true;
 			}
 			Player pl2 = Bukkit.getPlayer(args[1]);
-			
 
 			double cash = getDouble(args[2], -1);
 			if (cash < 0 || pl2 == null) {

@@ -3,6 +3,7 @@ package me.khmdev.APIEconomy;
 
 import me.khmdev.APIBase.Almacenes.local.ConfigFile;
 import me.khmdev.APIEconomy.Own.APIEconomy;
+import me.khmdev.APIEconomy.lang.Lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class init extends JavaPlugin{
 	private APIEconomy apie;
 	public void onEnable() {
+		Lang.init(this);
 		if (!hasPluging("APIBase")) {
 			getLogger().severe(
 					getName()
@@ -55,6 +57,6 @@ public class init extends JavaPlugin{
 		return false;
 	}
 	public void onDisable(){
-		apie.onDisable();
+		if(apie!=null){apie.onDisable();}
 	}
 }
